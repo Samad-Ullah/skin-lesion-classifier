@@ -8,8 +8,6 @@ __pycache__/
 *.egg-info/
 
 # Data and artefacts (tracked by DVC, never by Git)
-data/raw/
-data/processed/
 models/
 mlruns/
 outputs/
