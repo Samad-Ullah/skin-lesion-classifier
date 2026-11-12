@@ -8,15 +8,11 @@ __pycache__/
 *.egg-info/
 
 # Data and artefacts (tracked by DVC, never by Git)
-models/
-mlruns/
-outputs/
+/models/
+/mlruns/
+/outputs/
 
 # Notebooks / editors
 .ipynb_checkpoints/
 .vscode/
 .idea/
-
-/models/
-/mlruns/
-/outputs/
