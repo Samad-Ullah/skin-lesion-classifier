@@ -1,7 +1,7 @@
 import pytest
 
 from skinlesion.labels import code_to_index
-from skinlesion.metrics import compute_metrics
+from skinlesion.metrics import compute_metrics, confusion_table
 
 NV = code_to_index("nv")
 MEL = code_to_index("mel")
@@ -28,3 +28,15 @@ def test_toy_example_by_hand():
     m = compute_metrics([0, MEL, NV], [0, NV, NV])
     assert m["balanced_accuracy"] == pytest.approx(2 / 3)
     assert m["macro_f1"] == pytest.approx((1 + 0 + 2 / 3) / 7)
+
+
+def test_confusion_table_rows_are_true_class():
+    t = confusion_table([MEL, MEL, NV], [NV, MEL, NV])
+    assert t.shape == (7, 7)
+    assert t.loc["mel", "nv"] == 1  # one melanoma predicted as nv
+    assert t.loc["mel", "mel"] == 1
+    assert t.loc["nv", "nv"] == 1
+    assert t.to_numpy().sum() == 3
+
+    tn = confusion_table([MEL, MEL, NV], [NV, MEL, NV], normalize=True)
+    assert tn.loc["mel", "mel"] == pytest.approx(0.5)  # mel recall
